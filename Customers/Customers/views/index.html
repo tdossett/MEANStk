@@ -1,0 +1,187 @@
+﻿<!-- index.html -->
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <!-- CSS (load bootstrap) -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        .navbar {
+            border-radius: 0;
+        }
+    </style>
+    <!-- JS (load angular, ui-router, and our custom js file) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://code.angularjs.org/1.2.13/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+    <script src="/node_modules/angular-utils-pagination/dirPagination.js"></script>
+    <script src="/public/javascripts/customersApp.js"></script>
+</head>
+
+<!-- apply our angular app to our site -->
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" ui-sref="home">
+                    Administration: Customers
+                    <!--<img alt="Brand" src="../images/greencross.jpg">-->
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a ui-sref="home">Home</a></li>
+                    <li><a ui-sref="customers">Customers</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a ui-sref="home"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a ui-sref="home"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div ui-view></div>
+    </div>
+
+    <script type="text/ng-template" id="/home.html">
+        <div class="page-header">
+            <h1>Home Page</h1>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="/customers.html">
+        <div data-ng-controller="customerController" class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <strong class="error">{{ error }}</strong>
+                    <p data-ng-hide="addMode"><a data-ng-click="toggleAdd()" href="javascript:;" class="btn btn-primary">Add New Customer</a></p>
+                    <form class="form-horizontal" name="addCustomer" data-ng-show="addMode">
+                        <div class="form-group">
+                            <label for="cid" class="col-sm-2 control-label">ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="cid" placeholder="please enter id" data-ng-model="newcustomer.Id" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cfname" class="col-sm-2 control-label"> First Name:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="cfname" placeholder="please enter your first name" data-ng-model="newcustomer.firstname" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="clname" class="col-sm-2 control-label">Last Name:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="clname" placeholder="please enter your last name" data-ng-model="newcustomer.lastname" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cemail" class="col-sm-2 control-label">Email:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="cemail" placeholder="please enter your email" data-ng-model="newcustomer.email" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cpassword" class="col-sm-2 control-label">Password:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="cpassword" placeholder="please enter your password" data-ng-model="newcustomer.password" required />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10" style="margin-top:10px;">
+                                <input type="submit" value="Add" data-ng-click="add()" data-ng-disabled="!addCustomer.$valid" class="btn btn-primary" />
+                                <input type="button" value="Cancel" data-ng-click="toggleAdd()" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        <br />
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label>Search</label>
+                            <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                        </div>
+                    </form>
+                    <br />
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" style="width:800px">
+                            <tr>
+                                <th ng-click="sort('Id')">
+                                    #
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='Id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                </th>
+
+                                <th ng-click="sort('firstname')">
+                                    FirstName
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='firstname'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                </th>
+                                <th ng-click="sort('lastname')">
+                                    LastName
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='lastname'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                </th>
+                                <th ng-click="sort('email')">
+                                    Email
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='email'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                </th>
+                                <th ng-click="sort('password')">
+                                    Password
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='password'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                </th>
+                            </tr>
+                            <tr dir-paginate="customer in customers|orderBy:sortKey:reverse|filter:search|itemsPerPage:5">
+                                <td><strong data-ng-hide="customer.editMode">{{ customer.Id }}</strong></td>
+                                <td>
+                                    <p data-ng-hide="customer.editMode">{{ customer.firstname }}</p>
+                                    <input data-ng-show="customer.editMode" type="text" data-ng-model="customer.firstname" />
+                                </td>
+                                <td>
+                                    <p data-ng-hide="customer.editMode">{{ customer.lastname }}</p>
+                                    <input data-ng-show="customer.editMode" type="text" data-ng-model="customer.lastname" />
+                                </td>
+                                <td>
+                                    <p data-ng-hide="customer.editMode">{{ customer.email }}</p>
+                                    <input data-ng-show="customer.editMode" type="text" data-ng-model="customer.email" />
+                                </td>
+                                <td>
+                                    <p data-ng-hide="customer.editMode">{{ customer.password }}</p>
+                                    <input data-ng-show="customer.editMode" type="text" data-ng-model="customer.password" />
+                                </td>
+                                <td>
+                                    <p data-ng-hide="customer.editMode"><a data-ng-click="toggleEdit(customer)" href="javascript:;">Edit</a> | <a data-ng-click="deleteCustomer(customer)" href="javascript:;">Delete</a></p>
+                                    <p data-ng-show="customer.editMode"><a data-ng-click="saveCustomer(customer)" href="javascript:;">Save</a> | <a data-ng-click="toggleEdit(customer)" href="javascript:;">Cancel</a></p>
+                                </td>
+                            </tr>
+                        </table>
+                        <dir-pagination-controls max-size="5"
+                                                 direction-links="true"
+                                                 boundary-links="true">
+                        </dir-pagination-controls>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="mydiv" data-ng-show="loading">
+                <img src="images/ajax-loader.gif" class="ajax-loader" />
+            </div>
+        </div>
+    </script>
+
+</body>
+</html>

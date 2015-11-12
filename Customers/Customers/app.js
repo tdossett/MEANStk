@@ -4,15 +4,23 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+
+// Models
+require('./public/models/Customers');
+// Database Connection
+//mongoose.connect('mongodb://localhost:27017/timworks'); // local mongodb
+mongoose.connect('mongodb://tdossett:09TiMTLD@ds036698.mongolab.com:36698/timworks');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+//var users = require('./routes/users');
 
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -22,9 +30,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public/javascripts', express.static(path.join(__dirname, '/public/javascripts')));
+app.use('/models', express.static(path.join(__dirname, '/public/models')));
+app.use('/node_modules/angular-utils-pagination', express.static(path.join(__dirname, '/node_modules/angular-utils-pagination')));
 
 app.use('/', routes);
-app.use('/users', users);
+//app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -56,6 +67,5 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
