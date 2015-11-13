@@ -13,7 +13,7 @@ In addtion to the above mention components, the following are also included.
 
 1. angular-utils-pagination - utility used for simple pagination for custom grid ued in this example.
 	  -  can be found: https://github.com/michaelbromley/angularUtils/tree/master/src/directives/pagination
-2. Boostrap - used for repsonsive design and theming.
+2. Bootstrap - used for repsonsive design and theming.
 3. Mongoose - used to establish connection MongoDB database for access to customers collection. 
 	Also used to define Schema for customers collection.
 
