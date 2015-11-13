@@ -15,4 +15,8 @@ In addtion to the above mention components, the following are also included:
 	  -  can be found: https://github.com/michaelbromley/angularUtils/tree/master/src/directives/pagination
 2. Bootstrap - used for repsonsive design and theming.
 3. Mongoose - used to establish connection MongoDB database for access to customers collection. 
+<<<<<<< HEAD
 	Also used to define Schema for customers collection.
+=======
+	Also used to define Schema for customers collection.
+>>>>>>> origin/master
