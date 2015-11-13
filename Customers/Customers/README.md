@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿# This is an example of a simple MEAN Stack application developed in Visual Studio 2015 Community Edition. 
+# This is an example of a simple MEAN Stack application developed in Visual Studio 2015 Community Edition. 
 It contains a basic CRUD (Create, Read, Update and Delete) operations over a list of Customers located in a table grid.
 
 The following modules and components were incorporated into the developmemt of this application:
@@ -22,7 +21,6 @@ In addtion to the above mention components, the following are also included.
 =======
 # This is an example of a simple MEAN Stack application developed in Visual Studio 2015 Community Edition. 
 It contains a basic CRUD (Create, Read, Update and Delete) operations over a list of Customers located in a table grid.
->>>>>>> origin/master
 
 The following modules and components were incorporated into the developmemt of this application:
 
