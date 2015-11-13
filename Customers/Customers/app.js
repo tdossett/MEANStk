@@ -9,7 +9,6 @@ var mongoose = require('mongoose');
 // Models
 require('./public/models/Customers');
 // Database Connection
-//mongoose.connect('mongodb://localhost:27017/timworks'); // local mongodb
 mongoose.connect('mongodb://tdossett:09TiMTLD@ds036698.mongolab.com:36698/timworks');
 
 var routes = require('./routes/index');
@@ -20,7 +19,6 @@ var app = express();
 // view engine setup
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
