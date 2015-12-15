@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 // Models
 require('./public/models/Customers');
 // Database Connection
-mongoose.connect('mongodb://tdossett:09TiMTLD@ds036698.mongolab.com:36698/timworks');
+mongoose.connect('mongodb://username:password@ds036698.mongolab.com:36698/database');
 
 var routes = require('./routes/index');
 //var users = require('./routes/users');
